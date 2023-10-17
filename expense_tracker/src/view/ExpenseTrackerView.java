@@ -1,11 +1,8 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.JFormattedTextField.AbstractFormatterFactory;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import controller.InputValidation;
 
 import java.awt.*;
 import java.text.NumberFormat;
@@ -103,18 +100,9 @@ public class ExpenseTrackerView extends JFrame {
   public JTextField getCategoryFilterField(){
     return categoryFilterField;
   }
-
-  public JTextField getAmountFilterField_1(){
+  public JTextField getAmountFilterField() {
     return amountFilterField;
-  }
 
-  public double getAmountFilterField() {
-    if(amountField.getText().isEmpty()) {
-      return 0;
-    }else {
-      double amount = Double.parseDouble(amountField.getText());
-      return amount;
-    }
   }
 
 
@@ -122,29 +110,30 @@ public class ExpenseTrackerView extends JFrame {
     return filterButton;
   }
 
-  public void highlightFilteredTransactions(List<Transaction> filteredTransactions) {
-    setupHighlightingRenderer(filteredTransactions);
+  public void highlightFilteredTransactions_category(List<Transaction> filteredTransactions) {
+    setupHighlightingRenderer_category(filteredTransactions);
     transactionsTable.updateUI();
 }
-
-  private void setupHighlightingRenderer(List<Transaction> filteredTransactions) {
+  public void highlightFilteredTransactions_amount(List<Transaction> filteredTransactions) {
+    setupHighlightingRenderer_amount(filteredTransactions);
+    transactionsTable.updateUI();
+  }
+  private void setupHighlightingRenderer_category(List<Transaction> filteredTransactions) {
     transactionsTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
       @Override
       public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                      boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-
         String category = (String) table.getModel().getValueAt(row, 2);
 
         boolean isFiltered = false;
 
         for (Transaction filteredTransaction : filteredTransactions) {
-          if (filteredTransaction.getCategory().equals(category) ) {
+          if (filteredTransaction.getCategory().equals(category)) {
             isFiltered = true;
             break;
           }
         }
-
         if (isFiltered) {
           c.setBackground(new Color(173, 255, 168)); // Light green
         } else {
@@ -154,7 +143,35 @@ public class ExpenseTrackerView extends JFrame {
       }
     });
   }
+  private void setupHighlightingRenderer_amount(List<Transaction> filteredTransactions) {
+    transactionsTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                     boolean hasFocus, int row, int column) {
+        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+        Object amountObj = table.getModel().getValueAt(row, 1);
+        double amount = 0;
+        if (amountObj != null) {
+          amount = (double) amountObj;
+        }
+        boolean isFiltered = false;
+
+        for (Transaction filteredTransaction : filteredTransactions) {
+          if (filteredTransaction.getAmount() == amount) {
+            isFiltered = true;
+            break;
+          }
+        }
+        if (isFiltered) {
+          c.setBackground(new Color(173, 255, 168)); // Light green
+        } else {
+          c.setBackground(table.getBackground());
+        }
+        return c;
+      }
+    });
+  }
 
   public void refreshTable(List<Transaction> transactions) {
       // Clear existing rows

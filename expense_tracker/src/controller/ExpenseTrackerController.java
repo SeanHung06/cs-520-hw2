@@ -48,10 +48,12 @@ public class ExpenseTrackerController {
   
   // Other controller methods
 
-  public void applyFilter(TransactionFilter filter){
+  public void applyFilter_category(TransactionFilter filter){
     List<Transaction> filter_transactions = filter.filter(model.getTransactions());
-    System.out.println(filter_transactions);
-    view.highlightFilteredTransactions(filter_transactions);
-    System.out.println("applyFilter");
+    view.highlightFilteredTransactions_category(filter_transactions);
+  }
+  public void applyFilter_amount(TransactionFilter filter){
+    List<Transaction> filter_transactions = filter.filter(model.getTransactions());
+    view.highlightFilteredTransactions_amount(filter_transactions);
   }
 }

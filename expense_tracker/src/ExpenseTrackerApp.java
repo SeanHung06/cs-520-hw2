@@ -43,25 +43,16 @@ public class ExpenseTrackerApp {
       String filterType = view.getFilterTypeDropDown().getSelectedItem().toString();
       TransactionFilter filter ;
       if (filterType.equals("Amount")) {
-        String amountStr = String.valueOf(view.getAmountFilterField());
-        System.out.println(amountStr);
-        if (amountStr.isEmpty()) {
-          JOptionPane.showMessageDialog(view, "Please enter an amount.", "Error", JOptionPane.ERROR_MESSAGE);
-          return; // Do not continue if there's no input for amount
-        }
+        String amount = view.getCategoryFilterField().getText();
+        filter = new AmountFilter(amount);
+        controller.applyFilter_amount(filter);
 
-        try {
-          double amount = Double.parseDouble(amountStr);
-          filter = new AmountFilter(amount);
-        } catch (NumberFormatException ex) {
-          JOptionPane.showMessageDialog(view, "Invalid amount entered.", "Error", JOptionPane.ERROR_MESSAGE);
-          return; // Do not continue if there's an invalid input for amount
-        }
+
       } else {
         String category = view.getCategoryFilterField().getText();
         filter = new CategoryFilter(category);
+        controller.applyFilter_category(filter);
       }
-      controller.applyFilter(filter);
     });
 
   }

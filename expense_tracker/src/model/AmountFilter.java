@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 public class AmountFilter implements TransactionFilter {
     private final double amount;
 
-    public AmountFilter(double amount) {
-        this.amount = amount;
+    public AmountFilter(String amount) {
+        this.amount =Double.parseDouble(amount);
     }
     @Override
     public List<Transaction> filter(List<Transaction> transactions) {
