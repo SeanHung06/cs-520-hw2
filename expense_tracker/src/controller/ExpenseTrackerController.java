@@ -8,6 +8,7 @@ import java.util.List;
 
 import model.ExpenseTrackerModel;
 import model.Transaction;
+import model.TransactionFilter;
 public class ExpenseTrackerController {
   
   private ExpenseTrackerModel model;
@@ -46,4 +47,11 @@ public class ExpenseTrackerController {
   }
   
   // Other controller methods
+
+  public void applyFilter(TransactionFilter filter){
+    List<Transaction> filter_transactions = filter.filter(model.getTransactions());
+    System.out.println(filter_transactions);
+    view.highlightFilteredTransactions(filter_transactions);
+    System.out.println("applyFilter");
+  }
 }
