@@ -27,7 +27,7 @@ public class ExpenseTrackerView extends JFrame {
 
   public ExpenseTrackerView() {
     setTitle("Expense Tracker"); // Set title
-    setSize(600, 400); // Make GUI larger
+    setSize(1000, 800); // Make GUI larger
 
     String[] columnNames = {"serial", "Amount", "Category", "Date"};
     this.model = new DefaultTableModel(columnNames, 0);
@@ -61,16 +61,16 @@ public class ExpenseTrackerView extends JFrame {
   
     // Add panels to frame
     add(inputPanel, BorderLayout.NORTH);
-    add(new JScrollPane(transactionsTable), BorderLayout.CENTER); 
-    add(buttonPanel, BorderLayout.SOUTH);
+    // add(new JScrollPane(transactionsTable), BorderLayout.CENTER); 
+    add(buttonPanel, BorderLayout.WEST);
   
     // Set frame properties
-    setSize(400, 300);
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setVisible(true);
+    // setSize(400, 300);
+    // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // setVisible(true);
 
     JPanel FilterPanel = new JPanel();
-    add(FilterPanel, BorderLayout.AFTER_LAST_LINE);
+    add(FilterPanel, BorderLayout.PAGE_END);
 
     // Add Filter Dropdown 
     String[] filterTypes = {"Amount", "Category"};
